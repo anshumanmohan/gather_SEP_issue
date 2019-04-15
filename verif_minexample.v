@@ -27,7 +27,7 @@ Proof.
   assert_PROP True.
   - (* the goal in this branch has ENTAIL delta. We are in the entailment context. *)
     (* now the line below will fail with "no matching clauses for match *)
-    (* gather_SEP (data_at sh tint Vzero c) (data_at sh tint Vzero d). *)
+    Fail (gather_SEP (data_at sh tint Vzero c) (data_at sh tint Vzero d)).
     (* but the numerical equivalent will still succeed: *)
     gather_SEP 2 3.
     admit.
