@@ -24,11 +24,15 @@ Definition Gprog : funspecs :=
 Lemma body_minexample : semax_body Vprog Gprog f_minexample minexample_spec.
 Proof.
   start_function.
-  (* old command: *)
-  (* gather_SEP 0 3 1. *)
-  (* equivalent new command: *)
-  gather_SEP (data_at _ _ _ a)
-             (data_at _ _ _ d)
-             (data_at _ _ _ b).
-  (* rather unexpected behavior... *)
+  assert_PROP True.
+  - (* the goal in this branch has ENTAIL delta. We are in the entailment context. *)
+    (* now the line below will fail with "no matching clauses for match *)
+    (* gather_SEP (data_at sh tint Vzero c) (data_at sh tint Vzero d). *)
+    (* but the numerical equivalent will still succeed: *)
+    gather_SEP 2 3.
+    admit.
+  - (* the goal in this branch has semax delta; we are in the proof context. *)
+    (* the line below words great, ie equivalent to gather_SEP 2 3. *)
+    gather_SEP (data_at sh tint Vzero c) (data_at sh tint Vzero d).
+    admit.
 Abort.
