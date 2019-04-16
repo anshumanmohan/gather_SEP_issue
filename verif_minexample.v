@@ -10,9 +10,7 @@ Definition minexample_spec : ident * funspec :=
    PROP  ()
    LOCAL () 
    SEP   (data_at sh tint Vzero a;
-          data_at sh tint Vzero b;
-          data_at sh tint Vzero c;
-          data_at sh tint Vzero d)
+          data_at sh tint Vzero a -* data_at sh tint Vzero b)
   POST [ tint ]
     PROP()
     LOCAL (temp ret_temp Vzero)
@@ -24,15 +22,11 @@ Definition Gprog : funspecs :=
 Lemma body_minexample : semax_body Vprog Gprog f_minexample minexample_spec.
 Proof.
   start_function.
-  assert_PROP True.
-  - (* the goal in this branch has ENTAIL delta. We are in the entailment context. *)
-    (* now the line below will fail with "no matching clauses for match *)
-    Fail (gather_SEP (data_at sh tint Vzero c) (data_at sh tint Vzero d)).
-    (* but the numerical equivalent will still succeed: *)
-    gather_SEP 2 3.
-    admit.
-  - (* the goal in this branch has semax delta; we are in the proof context. *)
-    (* the line below words great, ie equivalent to gather_SEP 2 3. *)
-    gather_SEP (data_at sh tint Vzero c) (data_at sh tint Vzero d).
-    admit.
+  (* pattern-accepting behavior: *)
+  Fail
+    (gather_SEP
+       (data_at sh tint Vzero a)
+       (data_at sh tint Vzero a -* data_at sh tint Vzero b)).
+  (* equivalent numerical behavior: *)
+  gather_SEP 0 1.
 Abort.
